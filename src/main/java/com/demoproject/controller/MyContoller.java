@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demoproject.entity.Orders;
 import com.demoproject.entity.User;
+import com.demoproject.repository.OrderRepo;
 import com.demoproject.repository.UserRepo;
 import com.demoproject.service.MyService;
 
@@ -21,6 +23,9 @@ public class MyContoller {
 
 	@Autowired
 	private UserRepo repo;
+
+	@Autowired
+	private OrderRepo orderRepo;
 
 	@PostMapping(value = "/addUser")
 	public User addUser(@RequestBody User u) {
@@ -45,6 +50,22 @@ public class MyContoller {
 	@GetMapping(value = "/getAllUsers")
 	public Iterable<User> getAllUsers() {
 		return repo.findAll();
+	}
+
+	@PostMapping(value = "/placeOrder")
+	public Orders placeOrder(@RequestBody Orders o) {
+		return orderRepo.save(o);
+	}
+	
+	@GetMapping(value = "/getOrderById/{id}")
+	public Orders getOrderById(@PathVariable("id") Long id) {
+		return orderRepo.findById(id).get();
+	}
+	
+	
+	@GetMapping(value = "/getOrders")
+	public Iterable<Orders> getOrders() {
+		return orderRepo.findAll();
 	}
 
 }

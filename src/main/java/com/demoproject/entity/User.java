@@ -2,10 +2,12 @@ package com.demoproject.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -13,6 +15,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "USER", schema = "PROJECTSCHEMA")
@@ -57,6 +61,21 @@ public class User implements Serializable {
 	private Date createdAt=new Date();
 	@Column(name = "CREATED_BY")
 	private String createdBy;
+	@OneToMany(mappedBy="user")
+	@JsonManagedReference
+	private List<Orders> orders;
+	
+	
+	
+	
+
+	public List<Orders> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Orders> orders) {
+		this.orders = orders;
+	}
 
 	// setter&getter
 	public Long getId() {
